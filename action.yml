@@ -1,0 +1,18 @@
+name: "Setup Earthly"
+description: "Setup Earthly Build Tool"
+runs:
+  using: "composite"
+  steps:
+    - name: Download Earthly
+      shell: bash
+      run: >
+        sudo -E gh release download
+        --repo earthly/earthly
+        --dir /usr/local/bin
+        --pattern "*$(echo ${{runner.os}} | tr '[:upper:]' '[:lower:]')*"
+    - name: Make Earthly Executable
+      shell: bash
+      run: sudo chmod +x /usr/local/bin/earth-*
+    - name: Link Earthly Executable
+      shell: bash
+      run: sudo ln -s /usr/local/bin/earth-linux-amd64 /usr/local/bin/earth
